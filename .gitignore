@@ -1,0 +1,7 @@
+build/
+.cache/
+.envrc
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+.venv/
