@@ -4,4 +4,5 @@ build/
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate*
+tf.plan
 .venv/

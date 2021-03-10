@@ -1,0 +1,29 @@
+openapi: "3.0.1"
+info:
+  title: "serverless-discord"
+  version: "1.0"
+paths:
+  /:
+    post:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+      x-amazon-apigateway-integration:
+        contentHandling: "CONVERT_TO_TEXT"
+        httpMethod: "POST"
+        passthroughBehavior: "when_no_match"
+        responses:
+          default:
+            statusCode: "200"
+        timeoutInMillis: 10000
+        type: "AWS"
+        uri: "${invocation_arn}"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"
