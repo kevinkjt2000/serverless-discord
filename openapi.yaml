@@ -15,10 +15,21 @@ paths:
       x-amazon-apigateway-integration:
         contentHandling: "CONVERT_TO_TEXT"
         httpMethod: "POST"
-        passthroughBehavior: "when_no_match"
+        passthroughBehavior: "never"
         responses:
           default:
             statusCode: "200"
+        requestTemplates:
+          application/json: |
+            {
+              "body": "$util.escapeJavaScript($input.body)",
+              "headers": {
+                #foreach($param in $input.params().header.keySet())
+                "$param": "$util.escapeJavaScript($input.params().header.get($param))"
+                #if($foreach.hasNext),#end
+                #end
+              }
+            }
         timeoutInMillis: 10000
         type: "AWS"
         uri: "${invocation_arn}"
