@@ -10,6 +10,12 @@ using namespace aws::lambda_runtime;
 using json = nlohmann::json;
 
 
+enum class InteractionType {
+    Ping = 1,
+    ApplicationCommand = 2,
+};
+
+
 invocation_response my_handler(invocation_request const& req)
 {
     try {
@@ -25,7 +31,7 @@ invocation_response my_handler(invocation_request const& req)
             return invocation_response::failure("invalid signature", "unauthorized");
         }
         auto body = json::parse(body_str);
-        if (body["type"] == 1) {
+        if (body["type"] == InteractionType::Ping) {
             auto response = R"(
               {
                 "type": 1
