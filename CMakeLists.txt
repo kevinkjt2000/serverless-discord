@@ -8,7 +8,12 @@ cmake_minimum_required(VERSION 3.19)
 set(CMAKE_CXX_STANDARD 17)
 project(serverless-discord LANGUAGES CXX)
 
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/ed25519.cpp" "src/utils.cpp")
+add_executable(${PROJECT_NAME}
+  src/ed25519.cpp
+  src/handler.cpp
+  src/main.cpp
+  src/utils.cpp
+)
 target_compile_features(${PROJECT_NAME} PRIVATE "cxx_std_17")
 target_compile_options(${PROJECT_NAME} PRIVATE "-Wall" "-Wextra")
 
@@ -40,7 +45,15 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
   GIT_TAG        v2.13.4)
 FetchContent_MakeAvailable(Catch2)
-add_executable(tests tests/main.cpp tests/test_ed25519.cpp src/ed25519.cpp src/utils.cpp)
+add_executable(tests
+  src/ed25519.cpp 
+  src/handler.cpp
+  src/utils.cpp 
+  tests/main.cpp
+  tests/test_ed25519.cpp 
+  tests/test_handler.cpp 
+)
+target_link_libraries(tests PRIVATE AWS::aws-lambda-runtime)
 target_link_libraries(tests PRIVATE Catch2::Catch2)
 target_link_libraries(tests PUBLIC iroha::ed25519)
 target_link_libraries(tests PUBLIC fmt::fmt)
