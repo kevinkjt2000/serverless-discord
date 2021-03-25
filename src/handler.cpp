@@ -36,6 +36,12 @@ invocation_response my_handler(invocation_request const& req, SignatureInterface
             auto invoked_command_name = data["name"];
             auto options = data["options"];
             auto token = body["token"];
+            fmt::print("{}\n{}\n{}\n", invoked_command_id, invoked_command_name, token);
+            json resp = Discord::InteractionResponse{
+                .type = Discord::InteractionResponseType::ChannelMessageWithSource,
+                .data = {.tts = false, .content = "bleep bloop"}
+            };
+            return invocation_response::success(resp.dump(), "application/json");
         }
     } catch(nlohmann::detail::type_error& err) {
         fmt::print("{}\n", err.what());

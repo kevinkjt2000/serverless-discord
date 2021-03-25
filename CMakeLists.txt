@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 project(serverless-discord LANGUAGES CXX)
 
 add_executable(${PROJECT_NAME}
+  src/discord.cpp
   src/ed25519.cpp
   src/handler.cpp
   src/main.cpp
@@ -48,6 +49,7 @@ FetchContent_Declare(
   GIT_TAG        v2.13.4)
 FetchContent_MakeAvailable(Catch2)
 add_executable(tests
+  src/discord.cpp
   src/ed25519.cpp 
   src/handler.cpp
   src/utils.cpp 

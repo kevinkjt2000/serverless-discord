@@ -2,6 +2,10 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
+
 namespace Discord {
     enum class InteractionType {
         Ping = 1,
@@ -31,9 +35,11 @@ namespace Discord {
         AllowedMentions allowed_mentions;
         int flags;
     };
+    void to_json(json& j, const InteractionApplicationCommandCallbackData& data);
 
     struct InteractionResponse {
         InteractionResponseType type;
         InteractionApplicationCommandCallbackData data;
     };
+    void to_json(json& j, const InteractionResponse& resp);
 }
