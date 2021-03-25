@@ -1,8 +1,15 @@
 #pragma once
 #include <string>
 
+struct SignatureInterface {
+    virtual bool is_valid_signature(std::string signature, std::string signed_message) const = 0;
+};
+
+struct Ed25519 : public SignatureInterface {
+    virtual bool is_valid_signature(std::string signature, std::string signed_message) const override;
+};
+
 void hex_to_bytes(std::string hex, unsigned char* buff);
-bool is_valid_signature(std::string signature, std::string signed_message);
 
 template<class T>
 T from_string(std::string str) {

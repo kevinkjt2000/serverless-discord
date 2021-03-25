@@ -12,7 +12,7 @@ void hex_to_bytes(std::string hex, unsigned char* buff) {
     }
 }
 
-bool is_valid_signature(std::string signature, std::string signed_message) {
+bool Ed25519::is_valid_signature(std::string signature, std::string signed_message) const {
     auto pub = from_string<public_key_t>(getEnvVar("PUBLIC_KEY"));
     auto sig = from_string<signature_t>(signature);
     int ret = ed25519_verify(&sig, reinterpret_cast<unsigned const char*>(signed_message.c_str()), signed_message.size(), &pub);

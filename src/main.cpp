@@ -2,6 +2,6 @@
 
 int main()
 {
-    run_handler(my_handler);
+    run_handler(my_handler_shim);
     return 0;
 }

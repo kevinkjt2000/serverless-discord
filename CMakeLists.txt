@@ -39,6 +39,8 @@ aws_lambda_package_target(${PROJECT_NAME})
 
 
 
+hunter_add_package(FakeIt)
+find_package(FakeIt CONFIG REQUIRED)
 Include(FetchContent)
 FetchContent_Declare(
   Catch2
@@ -55,5 +57,6 @@ add_executable(tests
 )
 target_link_libraries(tests PRIVATE AWS::aws-lambda-runtime)
 target_link_libraries(tests PRIVATE Catch2::Catch2)
-target_link_libraries(tests PUBLIC iroha::ed25519)
+target_link_libraries(tests PUBLIC FakeIt::FakeIt)
 target_link_libraries(tests PUBLIC fmt::fmt)
+target_link_libraries(tests PUBLIC iroha::ed25519)

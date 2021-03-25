@@ -33,5 +33,6 @@ TEST_CASE("Ed25519 signatures are verified", "[ed25519]") {
     ed25519_sign(&sig, reinterpret_cast<const unsigned char*>(test_message.c_str()), test_message.size(), &pub, &priv);
     std::string signature = to_string<signature_t>(sig);
 
-    REQUIRE(is_valid_signature(signature, test_message));
+    Ed25519 verifier;
+    REQUIRE(verifier.is_valid_signature(signature, test_message));
 }

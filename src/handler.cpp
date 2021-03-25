@@ -10,15 +10,14 @@
 using namespace aws::lambda_runtime;
 using json = nlohmann::json;
 
-invocation_response my_handler(invocation_request const& req)
-{
+invocation_response my_handler(invocation_request const& req, SignatureInterface const& verifier) {
     try {
         auto parsed_payload = json::parse(req.payload);
         auto headers = parsed_payload["headers"];
         std::string body_str = parsed_payload["body"];
         std::string signature = headers["x-signature-ed25519"];
         std::string timestamp = headers["x-signature-timestamp"];
-        if(!is_valid_signature(signature, timestamp + body_str)) {
+        if(!verifier.is_valid_signature(signature, timestamp + body_str)) {
             fmt::print("invalid signature!\n");
             return invocation_response::failure("unauthorized", "401");
         }
@@ -43,7 +42,11 @@ invocation_response my_handler(invocation_request const& req)
         return invocation_response::failure("bad request", "402");
     }
 
-    fmt::print("generic failure\n");
-    return invocation_response::failure("unexpected non-ping payload received",
-                                        "error type here");
+    return invocation_response::failure("not implemented", "501");
+}
+
+invocation_response my_handler_shim(invocation_request const& req)
+{
+    Ed25519 verifier;
+    return my_handler(req, verifier);
 }
