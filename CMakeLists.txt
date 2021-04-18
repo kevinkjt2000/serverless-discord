@@ -54,6 +54,7 @@ add_executable(tests
   src/handler.cpp
   src/utils.cpp 
   tests/main.cpp
+  tests/test_discord.cpp 
   tests/test_ed25519.cpp 
   tests/test_handler.cpp 
 )
